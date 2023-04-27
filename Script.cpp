@@ -104,9 +104,8 @@ namespace prog
         {
             for (int j = 0; j < image->height(); j++)
             {
-                image->at(i, j).red() = 255 - image->at(i, j).red();
-                image->at(i, j).green() = 255 - image->at(i, j).green();
-                image->at(i, j).blue() = 255 - image->at(i, j).blue();
+                Color inv(255 - image->at(i, j).red(), 255 - image->at(i, j).green(), 255 - image->at(i, j).blue());
+                image->at(i, j) = inv;
             }
         }
     }
@@ -117,9 +116,7 @@ namespace prog
             for (int j = 0; j < image->height(); j++)
             {
                 rgb_value v = (image->at(i, j).red() + image->at(i, j).green() + image->at(i, j).blue()) / 3;
-                image->at(i, j).red() = v;
-                image->at(i, j).green() = v;
-                image->at(i, j).blue() = v;
+                image->at(i, j) = Color(v, v, v);
             }
         }
     }
@@ -133,11 +130,7 @@ namespace prog
             for (int j = 0; j < image->height(); j++)
             {
                 if (image->at(i, j).red() == c1.red() && image->at(i, j).green() == c1.green() && image->at(i, j).blue() == c1.blue())
-                {
-                    image->at(i, j).red() = c2.red();
-                    image->at(i, j).green() = c2.green();
-                    image->at(i, j).blue() = c2.blue();
-                }
+                    image->at(i, j) = c2;
             }
         }
     }
