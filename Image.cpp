@@ -2,31 +2,46 @@
 
 namespace prog
 {
-  Image::Image(int w, int h, const Color &fill)
-  {
-  }
-  Image::~Image()
-  {
-  }
-  int Image::width() const
-  {
-    return -1;
-  }
-  int Image::height() const
-  {
-    return -1;
-  }
+    Image::Image(int w, int h, const Color &fill)
+    {
+        this->w = w;
+        this->h = h;
+        img = new Color *[w];
 
-  // TODO: remove this DUMMY_color variable once you have appropriate fields for representing image pixels.
-  Color DUMMY_color;
+        for (int i = 0; i < w; i++)
+        {
+            Color *row = new Color[h];
+            for (int j = 0; j < h; j++)
+            {
+                row[j] = fill;
+            }
+            img[i] = row;
+        }
+    }
+    Image::~Image()
+    {
+        for (int i = 0; i < w; i++)
+        {
+            delete[] img[i];
+        }
+        delete[] img;
+    }
+    int Image::width() const
+    {
+        return this->w;
+    }
+    int Image::height() const
+    {
+        return this->h;
+    }
 
-  Color& Image::at(int x, int y)
-  {
-    return DUMMY_color;
-  }
+    Color &Image::at(int x, int y)
+    {
+        return img[x][y];
+    }
 
-  const Color& Image::at(int x, int y) const
-  {
-    return DUMMY_color;
-  }
+    const Color &Image::at(int x, int y) const
+    {
+        return img[x][y];
+    }
 }
