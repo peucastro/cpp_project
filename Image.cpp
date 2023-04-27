@@ -10,12 +10,12 @@ namespace prog
 
         for (int i = 0; i < w; i++)
         {
-            Color *row = new Color[h];
+            Color *column = new Color[h];
             for (int j = 0; j < h; j++)
             {
-                row[j] = fill;
+                column[j] = fill;
             }
-            img[i] = row;
+            img[i] = column;
         }
     }
     Image::~Image()
