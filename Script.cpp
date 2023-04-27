@@ -143,8 +143,7 @@ namespace prog
     {
         int x, y, w, h;
         Color c;
-        input >> x >> y >> w >> h;
-        input >> c;
+        input >> x >> y >> w >> h >> c;
 
         for (int i = x; i < x + w; i++)
         {
