@@ -83,6 +83,15 @@ namespace prog {
     }
     void Script::invert()
     {
+        for (int i = 0; i < image->width(); i++)
+        {
+            for (int j = 0; j < image->height(); j++)
+            {
+                image->at(i, j).red() = 255 - image->at(i, j).red();
+                image->at(i, j).green() = 255 - image->at(i, j).green();
+                image->at(i, j).blue() = 255 - image->at(i, j).blue();
+            }
+        }
     }
     void Script::to_gray_scale()
     {
