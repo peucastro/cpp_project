@@ -10,7 +10,7 @@ namespace prog
     private:
         int w;
         int h;
-        Color** img;
+        Color **img;
 
     public:
         Image(int w, int h, const Color &fill = {255, 255, 255});
