@@ -47,9 +47,17 @@ namespace prog {
             if (command == "save") {
                 save();
                 continue;
-            } 
-            // TODO ...
-
+            }
+            if (command == "invert")
+            {
+                invert();
+                continue;
+            }
+            if (command == "to_gray_scale")
+            {
+                to_gray_scale();
+                continue;
+            }
         }
     }
     void Script::open() {
@@ -72,5 +80,21 @@ namespace prog {
         string filename;
         input >> filename;
         saveToPNG(filename, image);
+    }
+    void Script::invert()
+    {
+    }
+    void Script::to_gray_scale()
+    {
+        for (int i = 0; i < image->width(); i++)
+        {
+            for (int j = 0; j < image->height(); j++)
+            {
+                rgb_value v = (image->at(i, j).red() + image->at(i, j).green() + image->at(i, j).blue()) / 3;
+                image->at(i, j).red() = v;
+                image->at(i, j).green() = v;
+                image->at(i, j).blue() = v;
+            }
+        }
     }
 }

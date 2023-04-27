@@ -7,23 +7,27 @@
 
 namespace prog
 {
-  class Script
-  {
-  public: 
-    Script(const std::string &filename);
-    ~Script();
-    void run();
-  private:
-    // Current image.
-    Image *image;
-    // Input stream for reading script commands.
-    std::ifstream input;
-  private:
-    // Private functions
-    void clear_image_if_any();
-    void open();
-    void blank();
-    void save();
-  };
+    class Script
+    {
+    public:
+        Script(const std::string &filename);
+        ~Script();
+        void run();
+
+    private:
+        // Current image.
+        Image *image;
+        // Input stream for reading script commands.
+        std::ifstream input;
+
+    private:
+        // Private functions
+        void clear_image_if_any();
+        void open();
+        void blank();
+        void save();
+        void invert();
+        void to_gray_scale();
+    };
 }
 #endif
