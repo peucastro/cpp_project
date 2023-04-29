@@ -77,6 +77,16 @@ namespace prog
                 fill();
                 continue;
             }
+            if (command == "h_mirror")
+            {
+                h_mirror();
+                continue;
+            }
+            if (command == "v_mirror")
+            {
+                v_mirror();
+                continue;
+            }
         }
     }
     void Script::open()
@@ -150,6 +160,46 @@ namespace prog
             for (int j = y; j < y + h; j++)
             {
                 image->at(i, j) = c;
+            }
+        }
+    }
+    void Script::h_mirror()
+    {
+        for (int i = 0; i < image->width() / 2; i++)
+        {
+            for (int j = 0; j < image->height(); j++)
+            {
+                /*
+                Color c = image->at(i, j);
+                Color c1 = image->at(image->width() - 1 - i, j);
+                image->at(i, j) = c1;
+                image->at(image->width() - 1 - i, j) = c;
+                */
+                Color *c = new Color;
+                *c = image->at(i, j);
+                image->at(i, j) = image->at(image->width() - 1 - i, j);
+                image->at(image->width() - 1 - i, j) = *c;
+                delete c;
+            }
+        }
+    }
+    void Script::v_mirror()
+    {
+        for (int i = 0; i < image->width(); i++)
+        {
+            for (int j = 0; j < image->height() / 2; j++)
+            {
+                /*
+                Color c = image->at(i, j);
+                Color c1 = image->at(i, image->height() - 1 - j);
+                image->at(i, j) = c1;
+                image->at(i, image->height() - 1 - j) = c;
+                */
+                Color *c = new Color;
+                *c = image->at(i, j);
+                image->at(i, j) = image->at(i, image->height() - 1 - j);
+                image->at(i, image->height() - 1 - j) = *c;
+                delete c;
             }
         }
     }
