@@ -44,4 +44,16 @@ namespace prog
     {
         return b;
     }
+    bool Color::operator==(const Color &other) const
+    {
+        if (r == other.r && g == other.g && b == other.b)
+            return true;
+        return false;
+    }
+    bool Color::operator!=(const Color &other) const
+    {
+        if (r != other.r || g != other.g || b != other.b)
+            return true;
+        return false;
+    }
 }

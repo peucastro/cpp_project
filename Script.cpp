@@ -87,6 +87,27 @@ namespace prog
                 v_mirror();
                 continue;
             }
+            if (command == "add")
+            {
+                add();
+                continue;
+            }
+            if (command == "crop")
+            {
+                crop();
+                continue;
+            }
+            if (command == "rotate_left")
+            {
+                rotate_left();
+                continue;
+            }
+            if (command == "rotate_right")
+            {
+                rotate_right();
+                continue;
+                ;
+            }
         }
     }
     void Script::open()
@@ -169,12 +190,6 @@ namespace prog
         {
             for (int j = 0; j < image->height(); j++)
             {
-                /*
-                Color c = image->at(i, j);
-                Color c1 = image->at(image->width() - 1 - i, j);
-                image->at(i, j) = c1;
-                image->at(image->width() - 1 - i, j) = c;
-                */
                 Color *c = new Color;
                 *c = image->at(i, j);
                 image->at(i, j) = image->at(image->width() - 1 - i, j);
@@ -189,12 +204,6 @@ namespace prog
         {
             for (int j = 0; j < image->height() / 2; j++)
             {
-                /*
-                Color c = image->at(i, j);
-                Color c1 = image->at(i, image->height() - 1 - j);
-                image->at(i, j) = c1;
-                image->at(i, image->height() - 1 - j) = c;
-                */
                 Color *c = new Color;
                 *c = image->at(i, j);
                 image->at(i, j) = image->at(i, image->height() - 1 - j);
@@ -202,5 +211,76 @@ namespace prog
                 delete c;
             }
         }
+    }
+    void Script::add()
+    {
+        string filename;
+        Color neutral;
+        int x, y;
+        input >> filename >> neutral >> x >> y;
+
+        Image *file = loadFromPNG(filename);
+        int x_file = 0;
+        int y_file = 0;
+
+        for (int i = x; i < x + file->width(); i++)
+        {
+            for (int j = y; j < y + file->height(); j++)
+            {
+                if (file->at(x_file, y_file) != neutral)
+                    image->at(i, j) = file->at(x_file, y_file);
+                y_file++;
+            }
+            y_file = 0;
+            x_file++;
+        }
+        delete file;
+    }
+    void Script::crop()
+    {
+        int x, y, w, h;
+        input >> x >> y >> w >> h;
+
+        Image *new_image = new Image(w, h);
+        int x_new = 0;
+        int y_new = 0;
+
+        for (int i = x; i < x + w; i++)
+        {
+            for (int j = y; j < y + h; j++)
+            {
+                new_image->at(x_new, y_new) = image->at(i, j);
+                y_new++;
+            }
+            y_new = 0;
+            x_new++;
+        }
+
+        delete image;
+        image = new_image;
+    }
+    void Script::rotate_left()
+    {
+        Image *new_image = new Image(image->height(), image->width());
+
+        for (int i = 0; i < image->width(); i++)
+        {
+            for (int j = 0; j < image->height(); j++)
+                new_image->at(j, image->width() - i - 1) = image->at(i, j);
+        }
+        delete image;
+        image = new_image;
+    }
+    void Script::rotate_right()
+    {
+        Image *new_image = new Image(image->height(), image->width());
+
+        for (int i = 0; i < image->width(); i++)
+        {
+            for (int j = 0; j < image->height(); j++)
+                new_image->at(image->height() - j - 1, i) = image->at(i, j);
+        }
+        delete image;
+        image = new_image;
     }
 }

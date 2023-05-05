@@ -34,12 +34,10 @@ namespace prog
     {
         return this->h;
     }
-
     Color &Image::at(int x, int y)
     {
         return img[x][y];
     }
-
     const Color &Image::at(int x, int y) const
     {
         return img[x][y];
