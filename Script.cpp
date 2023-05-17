@@ -134,81 +134,84 @@ namespace prog
         input >> filename;
         saveToPNG(filename, image);
     }
-    void Script::invert()
+    void Script::invert() // Inverts the intensity of the color in the current image.
     {
-        for (int i = 0; i < image->width(); i++)
+        for (int i = 0; i < image->width(); i++) // One cycle to go through all pixels in width.
         {
-            for (int j = 0; j < image->height(); j++)
+            for (int j = 0; j < image->height(); j++) // One cycle to go through all pixels in height.
             {
-                Color inv(255 - image->at(i, j).red(), 255 - image->at(i, j).green(), 255 - image->at(i, j).blue());
-                image->at(i, j) = inv;
+                Color inv(255 - image->at(i, j).red(), 255 - image->at(i, j).green(), 255 - image->at(i, j).blue()); // Inverts all values of color in the current image.
+                image->at(i, j) = inv; // The inverted color is distributed to each pixel.
             }
         }
     }
-    void Script::to_gray_scale()
+    void Script::to_gray_scale() // Turns the current image's color into tones of gray.
     {
-        for (int i = 0; i < image->width(); i++)
+        for (int i = 0; i < image->width(); i++) // One cycle to go through all pixels in width.
         {
-            for (int j = 0; j < image->height(); j++)
+            for (int j = 0; j < image->height(); j++) // One cycle to go through all pixels in height.
             {
+                // Creation of a value that corresponds to the average of the color values according to the cycles above.
                 rgb_value v = (image->at(i, j).red() + image->at(i, j).green() + image->at(i, j).blue()) / 3;
-                image->at(i, j) = Color(v, v, v);
+                image->at(i, j) = Color(v, v, v); // Turns every pixel's color into the corresponding average.
             }
         }
     }
-    void Script::replace()
+    void Script::replace() // Replaces one color for another.
     {
         Color c1, c2;
-        input >> c1 >> c2;
+        input >> c1 >> c2; // Insertion of the two desired colors.
 
-        for (int i = 0; i < image->width(); i++)
+        for (int i = 0; i < image->width(); i++) // One cycle to go through all pixels in width.
         {
-            for (int j = 0; j < image->height(); j++)
+            for (int j = 0; j < image->height(); j++) // One cycle to go through all pixels in height.
             {
+                // Verification if each pixel corresponds to the first color according to the cycles above. 
                 if (image->at(i, j).red() == c1.red() && image->at(i, j).green() == c1.green() && image->at(i, j).blue() == c1.blue())
-                    image->at(i, j) = c2;
+                    image->at(i, j) = c2; // Replacement of the first color to the second color.
             }
         }
     }
-    void Script::fill()
+    void Script::fill() // Fills the the desired area with a especific color.
     {
         int x, y, w, h;
         Color c;
+        // Insertion of the values that determine the coordinates of the origin, the width, the height and the color that fills the desired area, respectively.
         input >> x >> y >> w >> h >> c;
 
-        for (int i = x; i < x + w; i++)
+        for (int i = x; i < x + w; i++) // One cycle to go through all pixels in the width of the area.
         {
-            for (int j = y; j < y + h; j++)
+            for (int j = y; j < y + h; j++) // One cycle to go through all pixels in the height of the area.
             {
-                image->at(i, j) = c;
+                image->at(i, j) = c; // Redefinition of the color in each pixel inside the desired area.
             }
         }
     }
-    void Script::h_mirror()
+    void Script::h_mirror() // Inverts the current image horizontally.
     {
-        for (int i = 0; i < image->width() / 2; i++)
+        for (int i = 0; i < image->width() / 2; i++) // One cycle to go through all pixels in one half of the width.
         {
-            for (int j = 0; j < image->height(); j++)
+            for (int j = 0; j < image->height(); j++) // One cycle to go through all pixels in height.
             {
-                Color *c = new Color;
+                Color *c = new Color; // Copy of the color of every pixel according to the cycles above using dinamic memory.
                 *c = image->at(i, j);
-                image->at(i, j) = image->at(image->width() - 1 - i, j);
-                image->at(image->width() - 1 - i, j) = *c;
-                delete c;
+                image->at(i, j) = image->at(image->width() - 1 - i, j); // Reverts the order of every pixel according to the corresponding width.
+                image->at(image->width() - 1 - i, j) = *c; // The color is distributed to each inverted pixel according to the width.
+                delete c; // Delete the copy.
             }
         }
     }
-    void Script::v_mirror()
+    void Script::v_mirror() // Inverts the current image vertically.
     {
-        for (int i = 0; i < image->width(); i++)
+        for (int i = 0; i < image->width(); i++) // One cycle to go through all pixels in width.
         {
-            for (int j = 0; j < image->height() / 2; j++)
+            for (int j = 0; j < image->height() / 2; j++) // One cycle to go through all pixels in one half of the height.
             {
-                Color *c = new Color;
+                Color *c = new Color; // Copy of the color of every pixel according to the cycles above using dinamic memory.
                 *c = image->at(i, j);
-                image->at(i, j) = image->at(i, image->height() - 1 - j);
-                image->at(i, image->height() - 1 - j) = *c;
-                delete c;
+                image->at(i, j) = image->at(i, image->height() - 1 - j); // Reverts the order of every pixel according to the corresponding height.
+                image->at(i, image->height() - 1 - j) = *c; // The color is distributed to each inverted pixel according to the height.
+                delete c; // Delete the copy.
             }
         }
     }
@@ -245,9 +248,9 @@ namespace prog
         int x_new = 0;
         int y_new = 0;
 
-        for (int i = x; i < x + w; i++)
+        for (int i = x; i < x + w; i++) // One cycle to go through all pixels in the width of the area.
         {
-            for (int j = y; j < y + h; j++)
+            for (int j = y; j < y + h; j++) // One cycle to go through all pixels in the height of the area.
             {
                 new_image->at(x_new, y_new) = image->at(i, j);
                 y_new++;
@@ -256,31 +259,36 @@ namespace prog
             x_new++;
         }
 
-        delete image;
-        image = new_image;
+        delete image; // Delete the current image.
+        image = new_image; // The copy turns into the current image.
     }
-    void Script::rotate_left()
+    void Script::rotate_left() // Rotates the current image ninety degrees to the left.
     {
-        Image *new_image = new Image(image->height(), image->width());
+        Image *new_image = new Image(image->height(), image->width()); // Copy of the current image using dinamic memory.
 
-        for (int i = 0; i < image->width(); i++)
+        for (int i = 0; i < image->width(); i++) // One cycle to go through all pixels in width.
         {
-            for (int j = 0; j < image->height(); j++)
+            for (int j = 0; j < image->height(); j++) // One cycle to go through all pixels in height.
+            {
+                // The coordinates of every pixel invert and the height becomes dependent of the width of each pixel.
                 new_image->at(j, image->width() - i - 1) = image->at(i, j);
         }
-        delete image;
-        image = new_image;
+        delete image; // Delete the current image.
+        image = new_image; // The copy turns into the current image.
     }
-    void Script::rotate_right()
+}
+    void Script::rotate_right() // Rotates the current image ninety degrees to the right.
     {
-        Image *new_image = new Image(image->height(), image->width());
+        Image *new_image = new Image(image->height(), image->width()); // Copy of the current image using dinamic memory.
 
-        for (int i = 0; i < image->width(); i++)
+        for (int i = 0; i < image->width(); i++) // One cycle to go through all pixels in width.
         {
-            for (int j = 0; j < image->height(); j++)
+            for (int j = 0; j < image->height(); j++) // One cycle to g through all pixels in height.
+            {
+                // The coordinates of every pixel invert and the width becomes dependent of the height of each pixel.
                 new_image->at(image->height() - j - 1, i) = image->at(i, j);
         }
-        delete image;
-        image = new_image;
+        delete image; // Delete the current image.
+        image = new_image; // The copy turns into the current image.
     }
 }
