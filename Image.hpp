@@ -27,9 +27,9 @@ namespace prog
         int width() const;
         // Returns the image height.
         int height() const;
-        // Returns the color at a certain pixel (coordinate).
-        Color &at(int x, int y);
         // Modifies the color at a certain pixel (coordinate).
+        Color &at(int x, int y);
+        // Returns the color at a certain pixel (coordinate).
         const Color &at(int x, int y) const; 
     };
 }
